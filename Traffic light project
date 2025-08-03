@@ -1,0 +1,80 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h> // For sleep()
+
+// ANSI escape codes for colors
+#define RED "\033[41m  \033[0m"     // Red background
+#define YELLOW "\033[43m  \033[0m"  // Yellow background
+#define GREEN "\033[42m  \033[0m"   // Green background
+#define BLACK "\033[40m  \033[0m"   // Black background
+#define RESET "\033[0m"             // Reset formatting
+
+void displayTrafficLight(const char* lightColor, const char* pedestrianSignal, int countdown) {
+    system("clear"); // Clear the console
+
+    printf("      Traffic Light Simulation           \n");
+
+    // Traffic Light Display
+    printf("                --\n");
+
+    if (lightColor == "RED") {
+        printf("               |%s|\n", RED);
+        printf("               |%s|\n", BLACK);
+        printf("               |%s|\n", BLACK);
+    } else if (lightColor == "YELLOW") {
+        printf("               |%s|\n", BLACK);
+        printf("               |%s|\n", YELLOW);
+        printf("               |%s|\n", BLACK);
+    } else if (lightColor == "GREEN") {
+        printf("               |%s|\n", BLACK);
+        printf("               |%s|\n", BLACK);
+        printf("               |%s|\n", GREEN);
+    }
+
+    printf("                --\n");
+    printf("                ||\n                ||\n");
+
+    // Pedestrian Signal Display
+    printf("\n Pedestrian Signal: ");
+    if (pedestrianSignal == "WALK") {
+        printf("  %s %s", GREEN, RESET);
+    } else {
+        printf("%s %s", RED, RESET);
+    }
+
+    // Countdown Timer
+    printf("\n Time Remaining: %d seconds\n", countdown);
+    
+}
+
+void simulateTrafficLight() {
+    int timer;
+
+    while (1) {
+        // Red Light + Pedestrian "WALK"
+        timer = 10;
+        while (timer > 0) {
+            displayTrafficLight("RED", "WALK", timer--);
+            sleep(1);
+        }
+
+        // Yellow Light + Pedestrian "STOP"
+        timer = 3;
+        while (timer > 0) {
+            displayTrafficLight("YELLOW", "STOP", timer--);
+            sleep(1);
+        }
+
+        // Green Light + Pedestrian "STOP"
+        timer = 10;
+        while (timer > 0) {
+            displayTrafficLight("GREEN", "STOP", timer--);
+            sleep(1);
+        }
+    }
+}
+
+int main() {
+    simulateTrafficLight();
+    return 0;
+}
